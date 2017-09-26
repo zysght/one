@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+        <meta name="format-detection" content="telphone=no, email=no" >
+        <link rel="stylesheet" href="fonts/iconfont.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script>
+            document.documentElement.style.fontSize=window.innerWidth/375*50+"px";
+        </script>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <span><i class="icon iconfont icon-back"></i></span>
+            <span>统计排名</span>
+            <span></span>
+        </header><!-- /header -->
+        <main>
+            <div class="nav">
+                <span><a href="#">受理部门</a></span>
+                <span><a href="#">受理人员</a></span>
+                <span><a href="#">超期部门</a></span>
+                <span><a href="#">超期人员</a></span>
+            </div>
+            <div class="pic">
+                <div class="ind">
+                    <span><i class="icon iconfont icon-delete"></i></span>
+                    <dl>
+                        <dt><img src="img/1.png" alt="" /><span>5</span></dt>
+                        <dd>Alan Jensen</dd>
+                    </dl>
+                </div>
+                <div class="ind">
+                    <span><i class="icon iconfont icon-delete"></i></span>
+                    <dl>
+                        <dt><img src="img/2.png" alt="" /></dt>
+                        <dd>曲振成</dd>
+                    </dl>
+                </div>
+                <div class="ind">
+                    <span><i class="icon iconfont icon-delete"></i></span>
+                    <dl>
+                        <dt><img src="img/3.png" alt="" /></dt>
+                        <dd>白浩</dd>
+                    </dl>
+                </div>
+                <div class="ind">
+                    <span><i class="icon iconfont icon-delete"></i></span>
+                    <dl>
+                        <dt><img src="img/4.png" alt="" /></dt>
+                        <dd>May pan</dd>
+                    </dl>
+                </div>
+                <div class="ind">
+                    <span><i class="icon iconfont icon-delete"></i></span>
+                    <dl>
+                        <dt><img src="img/5.png" alt="" /></dt>
+                        <dd>Kate Wang</dd>
+                    </dl>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <script>
+        //限定范围
+        var num=100;
+        var skew=50;
+        var startX,startY,moveX,moveY,isXSkew=false,isYSkew=false;
+
+        function swiper(tar,d,fun){
+            tar.addEventListener('touchstart',function(e){
+                var touches=e.touches[0];
+                    startX=touches.pageX;
+                    startY=touches.pageY;
+                // console.log(startX,startY)
+            },false)
+            tar.addEventListener('touchmove',function(e){
+                var touches=e.touches[0];
+                    moveX=touches.pageX;
+                    moveY=touches.pageY;
+                // console.log(moveX,moveY)
+
+                if(Math.abs(moveY-startY)<skew){
+                    isXSkew=true;
+                }else{
+                    isXSkew=false;
+                }
+                if(Math.abs(moveX-startX)<skew){
+                    isYSkew=true;
+                }else{
+                    isYSkew=false;
+                }
+            })
+            tar.addEventListener('touchend',function(){
+                // console.log(d);
+                switch(d){
+                    case 'left':
+                        if(isXSkew && moveX-startX<-num){
+                            fun.call(tar);
+                        }
+                        break;
+                    case 'right':
+                        if(isXSkew && moveX-startX>num){
+                            fun.call(tar);
+                        }
+                        break;
+                    case 'up':
+                        if(isYSkew && moveY-startY<-num){
+                            fun.call(tar);
+                        }
+                        break;
+                    case 'dwon':
+                        if(isYSkew && moveY-startY>num){
+                            fun.call(tar);
+                        }
+                        break;
+
+                }
+                // if(isSkew && moveX-startX>num){
+                //     fun.call(tar);
+                // }
+            })
+        }
+        var pic=document.querySelector(".pic");
+        var ind=document.querySelectorAll(".ind");
+        var dl=document.querySelectorAll("dl");
+        var sp=pic.querySelectorAll("span");
+        console.log(sp)
+           for(var i=0;i<ind.length;i++){
+            // console.log(this);
+                swiper(ind[i],'right',function(){
+                    var span=this.querySelector('span');
+                    span.style.marginLeft="0";
+                })
+                swiper(ind[i],'left',function(){
+                    var span=this.querySelector('span');
+                    span.style.marginLeft="-1.43rem";
+                })
+
+           }
+           for(var i=0;i<sp.length;i++){
+                sp[i].addEventListener("click",function(){
+                    this.parentNode.remove()
+                })
+           }
+
+    </script>
+</body>
+</html>
